@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>蚊叩き DELUXE BOSS</title>
+<style>
+:root{
+  --accent:#ffe36b;--danger:#ff5f5f;--good:#54e69a;--cyan:#67e7ff;--gold:#ffd83d;
+  --text:#fff;--muted:#c8d0d1;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overflow:hidden}
+body{
+  min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;color:#fff;
+  background:
+    radial-gradient(circle at 15% 0%,rgba(35,105,74,.38),transparent 28%),
+    radial-gradient(circle at 85% 10%,rgba(38,77,93,.34),transparent 30%),
+    linear-gradient(180deg,#15211d,#0d1212 70%);
+}
+.app{width:min(100%,560px);min-height:100vh;margin:auto;padding:10px 10px max(10px,env(safe-area-inset-bottom));display:flex;flex-direction:column}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.brand{font-weight:1000;font-size:23px;display:flex;align-items:center;gap:7px}
+.brand-badge{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#253433,#111);border:1px solid #ffffff20}
+.hud-right{display:flex;gap:5px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.stat{min-width:62px;border-radius:12px;padding:6px 8px;text-align:center;background:linear-gradient(180deg,#ffffff1c,#ffffff0d);border:1px solid #ffffff17}
+.stat-label{font-size:8px;color:#aeb8b9;font-weight:900;letter-spacing:.06em}
+.stat-value{font-size:17px;font-weight:1000;line-height:1.05;margin-top:2px}
+.soundbtn{border:1px solid #ffffff18;background:#ffffff10;color:#fff;border-radius:12px;width:38px;height:38px;padding:0;font-size:18px;cursor:pointer}
+.game-shell{flex:1;min-height:0;position:relative;border-radius:28px;overflow:hidden;border:1px solid #ffffff1c;box-shadow:0 22px 65px #0007;background:#d7cab0;isolation:isolate}
+.room{position:absolute;inset:0;overflow:hidden;background:linear-gradient(180deg,#f0e5d1 0 61%,#b28e67 61% 100%)}
+.room:before{content:"";position:absolute;inset:0 0 39% 0;background:repeating-linear-gradient(90deg,#7e664b08 0 1px,transparent 1px 46px),linear-gradient(180deg,#f5ead8,#e8dcc5)}
+.window{position:absolute;right:9%;top:9%;width:35%;height:29%;border:8px solid #f7f3eb;background:linear-gradient(180deg,#8dd8f2,#d9f2fb);box-shadow:0 8px 18px #4759591f}
+.window:before,.window:after{content:"";position:absolute;background:#fff}.window:before{width:5px;top:0;bottom:0;left:50%}.window:after{height:5px;left:0;right:0;top:50%}
+.curtain{position:absolute;right:4%;top:7%;width:9%;height:36%;border-radius:8px 8px 18px 18px;background:linear-gradient(90deg,#8fa38d,#c0ceb7,#849a82)}
+.sofa{position:absolute;left:8%;bottom:15%;width:48%;height:20%;border-radius:28px 28px 15px 15px;background:linear-gradient(180deg,#7e947e,#596c5c);box-shadow:0 12px 22px #352e263d}
+.sofa:before{content:"";position:absolute;left:8%;right:8%;top:-17%;height:43%;border-radius:25px;background:#718672;border:2px solid #ffffff14}
+.table{position:absolute;left:41%;bottom:7%;width:35%;height:7%;border-radius:50%;background:linear-gradient(180deg,#ac8057,#805b3d);box-shadow:0 8px 12px #402c1a45}
+.table:after{content:"";position:absolute;left:47%;top:50%;width:8%;height:175%;background:#765237;border-radius:0 0 10px 10px}
+.plant-pot{position:absolute;left:3%;bottom:7%;width:14%;height:14%;border-radius:8px 8px 28px 28px;background:linear-gradient(#bd7953,#8d4f34)}
+.plant{position:absolute;left:0%;bottom:17%;width:22%;height:30%}.leaf{position:absolute;width:47%;height:18%;border-radius:100% 0 100% 0;background:linear-gradient(135deg,#4a7f4c,#2c5c35);transform-origin:100% 100%}
+.leaf:nth-child(1){left:42%;top:6%;transform:rotate(-34deg)}.leaf:nth-child(2){left:8%;top:18%;transform:rotate(18deg) scaleX(-1)}.leaf:nth-child(3){left:47%;top:32%;transform:rotate(-8deg)}.leaf:nth-child(4){left:5%;top:45%;transform:rotate(35deg) scaleX(-1)}.leaf:nth-child(5){left:44%;top:59%;transform:rotate(-20deg)}
+.lamp{position:absolute;right:11%;bottom:9%;width:8%;height:23%;background:linear-gradient(90deg,#5b544b,#948a7d,#5b544b);border-radius:5px}.lamp:before{content:"";position:absolute;width:250%;height:42%;left:-75%;top:-29%;border-radius:50% 50% 13% 13%;background:linear-gradient(180deg,#f6dca1,#ddb86f);box-shadow:0 0 35px #ffda8442}
+.timebar-wrap{position:absolute;left:12px;right:12px;top:12px;height:9px;border-radius:99px;background:#0003;z-index:12;overflow:hidden;border:1px solid #ffffff1d}.timebar{height:100%;width:100%;background:linear-gradient(90deg,#54e69a,#ffe36b,#ff6d5e);transition:width .25s linear}
+.special-wrap{position:absolute;left:12px;right:12px;bottom:12px;height:43px;z-index:20;display:flex;gap:8px;align-items:center}
+.special-barbox{flex:1;height:16px;background:#0006;border:1px solid #ffffff26;border-radius:99px;overflow:hidden;box-shadow:0 2px 8px #0005}.special-bar{height:100%;width:0;background:linear-gradient(90deg,#32d4ff,#9167ff,#ff4cc6);transition:width .2s}
+.special-label{font-size:10px;font-weight:900;color:#fff;text-shadow:0 2px 5px #000}
+.special-btn{width:90px;height:43px;border:0;border-radius:14px;background:#303239;color:#878b93;font-weight:1000;font-size:12px;cursor:not-allowed;box-shadow:0 7px 16px #0004}
+.special-btn.ready{cursor:pointer;background:linear-gradient(135deg,#2de1ff,#7758ff,#ff49c2);color:#fff;animation:pulse .8s infinite alternate;box-shadow:0 0 22px #7c61ff88}
+@keyframes pulse{to{transform:scale(1.04);filter:brightness(1.18)}}
+.mosquito{position:absolute;width:66px;height:66px;border:0;margin:0;padding:0;background:transparent;cursor:pointer;z-index:8;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 7px 6px #0005);user-select:none}
+.mosquito svg{width:66px;height:66px;overflow:visible}.mosquito.fast svg{filter:drop-shadow(0 0 9px #48e1ffbf)}.mosquito.gold svg{filter:drop-shadow(0 0 10px #ffd83df2)}
+.wings{animation:wing .08s linear infinite alternate;transform-origin:center}@keyframes wing{from{transform:scaleY(.75) rotate(-8deg)}to{transform:scaleY(1.14) rotate(8deg)}}.body-bob{animation:bob .22s ease-in-out infinite alternate}@keyframes bob{from{transform:translateY(-2px)}to{transform:translateY(3px)}}
+.boss{position:absolute;width:148px;height:148px;z-index:18;border:0;background:transparent;padding:0;filter:drop-shadow(0 10px 12px #0008);cursor:pointer}.boss svg{width:148px;height:148px}.boss-name{position:absolute;top:-23px;left:50%;transform:translateX(-50%);white-space:nowrap;font-weight:1000;color:#ff6a6a;text-shadow:0 2px 5px #000;font-size:12px}.boss-hpbox{position:absolute;left:12%;right:12%;bottom:-8px;height:10px;border-radius:99px;background:#0008;border:1px solid #ffffff28;overflow:hidden}.boss-hp{height:100%;width:100%;background:linear-gradient(90deg,#ff4343,#ffad43);transition:width .12s}
+.boss-alert{position:absolute;z-index:25;left:50%;top:70px;transform:translateX(-50%);font-weight:1000;font-size:35px;color:#ff5656;text-shadow:0 4px 0 #671b1b,0 8px 18px #0008;opacity:0;pointer-events:none}.boss-alert.show{animation:bossAlert 1.2s ease}@keyframes bossAlert{0%{opacity:0;transform:translateX(-50%) scale(.4)}25%{opacity:1;transform:translateX(-50%) scale(1.15)}80%{opacity:1}100%{opacity:0}}
+.swatter{position:absolute;width:90px;height:110px;z-index:28;pointer-events:none;transform-origin:50% 100%;opacity:0}.swatter.show{animation:swat .30s ease-out}@keyframes swat{0%{opacity:0;transform:translate(-50%,-50%) rotate(-38deg) scale(1.22)}35%{opacity:1;transform:translate(-50%,-50%) rotate(8deg) scale(.92)}100%{opacity:0;transform:translate(-50%,-50%) rotate(18deg) scale(.82)}}.swatter .head{position:absolute;top:0;left:10px;width:72px;height:74px;border:7px solid #db4f47;border-radius:22px;background:repeating-linear-gradient(0deg,transparent 0 9px,#db4f47ad 10px 12px),repeating-linear-gradient(90deg,transparent 0 9px,#db4f47ad 10px 12px)}.swatter .stick{position:absolute;width:10px;height:50px;background:#db4f47;left:41px;top:68px;border-radius:0 0 6px 6px}
+.hitfx{position:absolute;z-index:27;pointer-events:none;font-size:34px;font-weight:1000;color:#ffef75;text-shadow:0 3px 0 #7d241f,0 5px 12px #0008;animation:hitfx .58s ease forwards}@keyframes hitfx{0%{transform:translate(-50%,-50%) scale(.25);opacity:0}30%{transform:translate(-50%,-50%) scale(1.35);opacity:1}100%{transform:translate(-50%,-110%) scale(.85);opacity:0}}
+.particle{position:absolute;z-index:26;pointer-events:none;width:7px;height:7px;border-radius:50%;background:#ffe36b;animation:particle .5s ease-out forwards}@keyframes particle{from{transform:translate(0,0);opacity:1}to{transform:translate(var(--dx),var(--dy));opacity:0}}
+.combo{position:absolute;z-index:15;left:50%;top:42px;transform:translateX(-50%) scale(.8);opacity:0;pointer-events:none;font-size:31px;font-weight:1000;color:#fff17b;text-shadow:0 3px 0 #a55b14,0 6px 15px #0005}.combo.show{animation:combo .6s ease}@keyframes combo{0%{opacity:0;transform:translateX(-50%) scale(.45)}30%{opacity:1;transform:translateX(-50%) scale(1.18)}75%{opacity:1}100%{opacity:0;transform:translateX(-50%) scale(.9)}}
+.special-flash{position:absolute;inset:0;z-index:24;pointer-events:none;opacity:0;background:radial-gradient(circle,#fff 0,#65e7ffb3 18%,#774dff80 44%,transparent 72%)}.special-flash.show{animation:sflash .65s ease}@keyframes sflash{0%{opacity:0}25%{opacity:.95}100%{opacity:0}}
+.screen{position:absolute;inset:0;z-index:40;display:none;align-items:center;justify-content:center;flex-direction:column;padding:28px;text-align:center;background:linear-gradient(180deg,#0b100fd6,#060909eb);backdrop-filter:blur(6px)}.screen.show{display:flex}
+.hero-icon{width:128px;height:128px;border-radius:34px;background:linear-gradient(135deg,#2f443b,#15211d);border:1px solid #ffffff1f;display:grid;place-items:center;box-shadow:0 16px 40px #0006;margin-bottom:12px}.hero-icon svg{width:96px;height:96px}
+.title{font-size:39px;font-weight:1000;margin:3px 0 7px}.subtitle{font-size:14px;line-height:1.75;color:#c4cccc}.legend{width:min(100%,330px);margin-top:16px;padding:13px 15px;border-radius:16px;background:#ffffff12;border:1px solid #ffffff1a;display:grid;gap:7px;text-align:left;font-size:13px}.legend-row{display:flex;justify-content:space-between;gap:12px}
+.startbtn{border:none;width:min(100%,320px);padding:17px 20px;border-radius:18px;margin-top:20px;font-size:19px;font-weight:1000;cursor:pointer;color:#16130c;background:linear-gradient(135deg,#fff17b,#ffab51);box-shadow:0 13px 32px #ffbf4a40}
+.result-panel{width:min(100%,340px);padding:20px;border-radius:24px;background:linear-gradient(180deg,#ffffff1a,#ffffff0e);border:1px solid #ffffff1c;box-shadow:0 15px 40px #0005}.result-label{font-size:13px;color:#bfc8c7;letter-spacing:.12em;font-weight:900}.result-score{font-size:70px;font-weight:1000;line-height:1;color:#fff075;margin:8px 0}.best{font-size:14px;color:#67e7ff;font-weight:900;margin-top:5px}.rank{font-size:24px;font-weight:1000;margin:9px 0 4px}.result-sub{font-size:13px;color:#c3cccc;line-height:1.6}
+.countdown{position:absolute;inset:0;z-index:45;display:none;align-items:center;justify-content:center;flex-direction:column;background:#070a0ad6;backdrop-filter:blur(4px)}.countdown.show{display:flex}.count-number{font-size:120px;font-weight:1000}.count-label{font-weight:900;color:#fff17b;letter-spacing:.08em}
+.shake{animation:shake .18s linear}@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(-5px,3px)}50%{transform:translate(5px,-3px)}75%{transform:translate(-3px,-2px)}}
+.footer{text-align:center;color:#788281;font-size:10px;padding-top:7px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hud">
+    <div class="brand"><div class="brand-badge">🦟</div><span>蚊叩き</span></div>
+    <div class="hud-right">
+      <div class="stat"><div class="stat-label">TIME</div><div class="stat-value"><span id="time">30</span>s</div></div>
+      <div class="stat"><div class="stat-label">SCORE</div><div class="stat-value" id="score">0</div></div>
+      <div class="stat"><div class="stat-label">BEST</div><div class="stat-value" id="bestHud">0</div></div>
+      <button class="soundbtn" id="soundBtn" aria-label="sound">🔊</button>
+    </div>
+  </div>
+
+  <div class="game-shell" id="game">
+    <div class="room">
+      <div class="window"></div><div class="curtain"></div><div class="sofa"></div><div class="table"></div>
+      <div class="plant"><span class="leaf"></span><span class="leaf"></span><span class="leaf"></span><span class="leaf"></span><span class="leaf"></span></div>
+      <div class="plant-pot"></div><div class="lamp"></div>
+    </div>
+
+    <div class="timebar-wrap"><div class="timebar" id="timebar"></div></div>
+    <div class="combo" id="combo">5 COMBO!</div>
+    <div class="boss-alert" id="bossAlert">WARNING!! BOSS MOSQUITO</div>
+    <div class="special-flash" id="specialFlash"></div>
+
+    <div class="special-wrap">
+      <div style="flex:1">
+        <div class="special-label">⚡ 必殺技ゲージ</div>
+        <div class="special-barbox"><div class="special-bar" id="specialBar"></div></div>
+      </div>
+      <button class="special-btn" id="specialBtn">必殺技</button>
+    </div>
+
+    <div class="screen show" id="startScreen">
+      <div class="hero-icon" id="heroMosquito"></div>
+      <div class="title">蚊を叩け！</div>
+      <div class="subtitle">30秒で何点取れる？<br>10秒ごとに巨大ボス蚊が襲来！</div>
+      <div class="legend">
+        <div class="legend-row"><span>普通の蚊</span><strong>+1</strong></div>
+        <div class="legend-row"><span>高速蚊</span><strong style="color:#67e7ff">+2</strong></div>
+        <div class="legend-row"><span>金の蚊</span><strong style="color:#ffd83d">+5</strong></div>
+        <div class="legend-row"><span>巨大ボス蚊</span><strong style="color:#ff6969">5回叩け！</strong></div>
+        <div class="legend-row"><span>必殺技</span><strong style="color:#a98bff">画面全体攻撃</strong></div>
+      </div>
+      <button class="startbtn" id="startBtn">ゲームスタート</button>
+    </div>
+
+    <div class="screen" id="resultScreen">
+      <div class="result-panel">
+        <div class="result-label">RESULT</div>
+        <div class="result-score"><span id="finalScore">0</span></div>
+        <div class="best" id="bestText"></div>
+        <div class="rank" id="rankText"></div>
+        <div class="result-sub" id="resultSub"></div>
+      </div>
+      <button class="startbtn" id="retryBtn">もう一回</button>
+    </div>
+
+    <div class="countdown" id="countdown">
+      <div class="count-label">READY</div>
+      <div class="count-number" id="countNum">3</div>
+    </div>
+  </div>
+  <div class="footer">BESTスコアはこの端末に自動保存されます</div>
+</div>
+
+<script>
+const game=document.getElementById('game'),scoreEl=document.getElementById('score'),timeEl=document.getElementById('time'),
+bestHud=document.getElementById('bestHud'),timebar=document.getElementById('timebar'),comboEl=document.getElementById('combo'),
+startScreen=document.getElementById('startScreen'),resultScreen=document.getElementById('resultScreen'),
+countdown=document.getElementById('countdown'),countNum=document.getElementById('countNum'),
+specialBar=document.getElementById('specialBar'),specialBtn=document.getElementById('specialBtn'),
+bossAlert=document.getElementById('bossAlert'),specialFlash=document.getElementById('specialFlash');
+
+let score=0,combo=0,maxCombo=0,timeLeft=30,running=false,special=0;
+let timer=null,spawnLoop=null,bgmTimer=null,boss=null,bossCount=0;
+const active=new Set();
+let best=Number(localStorage.getItem('mosquito_best')||0);
+bestHud.textContent=best;
+let soundOn=true,audioCtx=null;
+
+function ensureAudio(){
+  if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+}
+function tone(freq,dur=.07,type='sine',vol=.04,delay=0){
+  if(!soundOn)return;
+  ensureAudio();
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain(),t=audioCtx.currentTime+delay;
+  o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(vol,t);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+dur);
+}
+function sfx(kind){
+  if(kind==='hit'){tone(310,.045,'square',.025);tone(180,.055,'square',.018,.025)}
+  if(kind==='gold'){tone(660,.07,'sine',.04);tone(990,.12,'sine',.03,.07)}
+  if(kind==='boss'){tone(110,.1,'sawtooth',.04);tone(85,.12,'sawtooth',.04,.07)}
+  if(kind==='special'){[330,440,660,880].forEach((f,i)=>tone(f,.18,'sine',.045,i*.055))}
+  if(kind==='end'){tone(220,.12,'triangle',.035);tone(164,.2,'triangle',.03,.12)}
+}
+function startBGM(){
+  clearInterval(bgmTimer);
+  let step=0; const seq=[131,165,196,165,147,185,220,185];
+  bgmTimer=setInterval(()=>{if(soundOn&&running){tone(seq[step%seq.length],.12,'triangle',.012);step++;}},420);
+}
+function stopBGM(){clearInterval(bgmTimer)}
+document.getElementById('soundBtn').onclick=()=>{
+  soundOn=!soundOn;document.getElementById('soundBtn').textContent=soundOn?'🔊':'🔇';
+  if(soundOn&&running){ensureAudio();startBGM()}else stopBGM();
+};
+
+function mosquitoSVG(type='normal'){
+  const gold=type==='gold',fast=type==='fast',bossT=type==='boss';
+  const body=bossT?'#4a1015':gold?'#f0b71d':fast?'#173845':'#202426';
+  const belly=bossT?'#ff3e4e':gold?'#ffdc5c':fast?'#4bd8f0':'#596064';
+  const wing=bossT?'#ffc2c8':gold?'#fff3b1':fast?'#baf5ff':'#d8eeee';
+  const eye=bossT?'#ffe900':gold?'#ff6b4c':'#f04444';
+  return `<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+  <g class="body-bob"><g class="wings" opacity=".9">
+  <ellipse cx="34" cy="31" rx="23" ry="10" fill="${wing}" transform="rotate(-28 34 31)"/>
+  <ellipse cx="56" cy="31" rx="23" ry="10" fill="${wing}" transform="rotate(28 56 31)"/></g>
+  <ellipse cx="45" cy="47" rx="${bossT?16:13}" ry="${bossT?24:20}" fill="${body}"/>
+  <ellipse cx="45" cy="58" rx="${bossT?13:10}" ry="${bossT?15:12}" fill="${belly}"/>
+  <circle cx="45" cy="31" r="${bossT?12:10}" fill="${body}"/>
+  <circle cx="40" cy="29" r="${bossT?3.5:2.5}" fill="${eye}"/><circle cx="50" cy="29" r="${bossT?3.5:2.5}" fill="${eye}"/>
+  <path d="M45 34 L45 11" stroke="${body}" stroke-width="${bossT?4:3}" stroke-linecap="round"/>
+  <path d="M39 45 L20 61 M51 45 L70 61 M39 53 L21 75 M51 53 L69 75" stroke="${body}" stroke-width="${bossT?4:3}" stroke-linecap="round"/>
+  <path d="M40 24 L33 15 M50 24 L57 15" stroke="${body}" stroke-width="2.5" stroke-linecap="round"/></g></svg>`;
+}
+document.getElementById('heroMosquito').innerHTML=mosquitoSVG();
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+
+document.getElementById('startBtn').onclick=startGame;document.getElementById('retryBtn').onclick=startGame;
+specialBtn.onclick=useSpecial;
+
+async function startGame(){
+  stopAll();ensureAudio();
+  score=0;combo=0;maxCombo=0;timeLeft=30;special=0;bossCount=0;boss=null;updateHUD();updateSpecial();
+  startScreen.classList.remove('show');resultScreen.classList.remove('show');countdown.classList.add('show');
+  for(const n of [3,2,1]){countNum.textContent=n;countNum.animate([{transform:'scale(.55)',opacity:.2},{transform:'scale(1.14)',opacity:1},{transform:'scale(1)',opacity:1}],{duration:520});await wait(620)}
+  countNum.textContent='GO!';tone(520,.12,'square',.03);await wait(430);countdown.classList.remove('show');
+  running=true;startBGM();spawnMosquito();
+  timer=setInterval(()=>{
+    timeLeft--;updateHUD();
+    if((timeLeft===20||timeLeft===10)&&!boss) spawnBoss();
+    if(timeLeft<=0)endGame();
+  },1000);
+  spawnLoop=setInterval(()=>{if(running&&!boss&&active.size<4)spawnMosquito();else if(running&&boss&&active.size<2)spawnMosquito()},520);
+}
+function randomPos(rect,size){return{x:8+Math.random()*Math.max(20,rect.width-size-16),y:38+Math.random()*Math.max(80,rect.height-size-105)}}
+function spawnMosquito(){
+  if(!running)return;
+  const btn=document.createElement('button');btn.className='mosquito';
+  const r=Math.random();let type='normal',points=1,lifetime=1600,moveEvery=380;
+  if(r<.11){type='gold';points=5;lifetime=1000;moveEvery=240;btn.classList.add('gold')}
+  else if(r<.33){type='fast';points=2;lifetime=850;moveEvery=175;btn.classList.add('fast')}
+  btn.innerHTML=mosquitoSVG(type);game.appendChild(btn);
+  const rect=game.getBoundingClientRect(),p=randomPos(rect,66);btn.style.left=p.x+'px';btn.style.top=p.y+'px';
+  const obj={el:btn,dead:false,timeout:null,mover:null};active.add(obj);
+  btn.onclick=e=>{
+    e.stopPropagation();if(!running||obj.dead)return;obj.dead=true;
+    score+=points;combo++;maxCombo=Math.max(maxCombo,combo);special=Math.min(100,special+(type==='gold'?22:type==='fast'?14:10));
+    const pos=centerOf(btn);swat(pos.x,pos.y);hitFX(pos.x,pos.y,type==='gold'?'PERFECT +5!':type==='fast'?'FAST +2!':'パシッ！ +1');particles(pos.x,pos.y,type);
+    sfx(type==='gold'?'gold':'hit');if(combo>=2)showCombo();shake();updateHUD();updateSpecial();removeMosquito(obj);
+  };
+  obj.mover=setInterval(()=>{if(obj.dead||!running)return;const gr=game.getBoundingClientRect(),p=randomPos(gr,66);btn.style.transition=type==='fast'?'left .14s linear,top .14s linear':'left .28s ease,top .28s ease';btn.style.left=p.x+'px';btn.style.top=p.y+'px'},moveEvery);
+  obj.timeout=setTimeout(()=>{if(!obj.dead&&running){combo=0;removeMosquito(obj)}},lifetime);
+}
+function spawnBoss(){
+  if(!running||boss)return;bossCount++;sfx('boss');
+  bossAlert.classList.remove('show');void bossAlert.offsetWidth;bossAlert.classList.add('show');
+  const el=document.createElement('button');el.className='boss';
+  el.innerHTML=`<div class="boss-name">BOSS MOSQUITO</div>${mosquitoSVG('boss')}<div class="boss-hpbox"><div class="boss-hp"></div></div>`;
+  game.appendChild(el);const gr=game.getBoundingClientRect();el.style.left=(gr.width/2-74)+'px';el.style.top='110px';
+  boss={el,hp:5,maxHp:5,mover:null};
+  boss.mover=setInterval(()=>{if(!boss||!running)return;const r=game.getBoundingClientRect(),p=randomPos(r,148);el.style.transition='left .4s ease,top .4s ease';el.style.left=p.x+'px';el.style.top=p.y+'px'},620);
+  el.onclick=e=>{
+    e.stopPropagation();if(!running||!boss)return;
+    boss.hp--;score+=1;special=Math.min(100,special+10);const pos=centerOf(el);swat(pos.x,pos.y);hitFX(pos.x,pos.y,'BOSS HIT!');particles(pos.x,pos.y,'gold');sfx('boss');shake();
+    boss.el.querySelector('.boss-hp').style.width=(boss.hp/boss.maxHp*100)+'%';updateHUD();updateSpecial();
+    if(boss.hp<=0){score+=10;hitFX(pos.x,pos.y,'BOSS DOWN +10!');tone(880,.2,'sawtooth',.04);clearInterval(boss.mover);boss.el.remove();boss=null;updateHUD()}
+  };
+}
+function useSpecial(){
+  if(!running||special<100)return;special=0;updateSpecial();sfx('special');
+  specialFlash.classList.remove('show');void specialFlash.offsetWidth;specialFlash.classList.add('show');shake();
+  let gained=0;
+  for(const obj of [...active]){if(!obj.dead){obj.dead=true;gained+=2;removeMosquito(obj)}}
+  if(boss){boss.hp=Math.max(0,boss.hp-2);boss.el.querySelector('.boss-hp').style.width=(boss.hp/boss.maxHp*100)+'%';if(boss.hp<=0){gained+=10;clearInterval(boss.mover);boss.el.remove();boss=null}}
+  score+=gained;combo+=Math.max(1,gained);maxCombo=Math.max(maxCombo,combo);hitFX(game.clientWidth/2,game.clientHeight/2,'⚡ 必殺！ +'+gained);updateHUD();if(combo>=2)showCombo();
+}
+function centerOf(el){const g=game.getBoundingClientRect(),b=el.getBoundingClientRect();return{x:b.left-g.left+b.width/2,y:b.top-g.top+b.height/2}}
+function removeMosquito(obj){clearTimeout(obj.timeout);clearInterval(obj.mover);active.delete(obj);if(obj.el?.parentNode)obj.el.remove()}
+function swat(x,y){const el=document.createElement('div');el.className='swatter show';el.style.left=x+'px';el.style.top=y+'px';el.innerHTML='<div class="head"></div><div class="stick"></div>';game.appendChild(el);setTimeout(()=>el.remove(),330)}
+function hitFX(x,y,text){const el=document.createElement('div');el.className='hitfx';el.textContent=text;el.style.left=x+'px';el.style.top=y+'px';game.appendChild(el);setTimeout(()=>el.remove(),620)}
+function particles(x,y,type){const colors=type==='gold'?['#ffd83d','#fff1a0','#ff9c2f']:type==='fast'?['#65e7ff','#fff','#45a5ff']:['#ffe36b','#ff8a5b','#fff'];for(let i=0;i<9;i++){const p=document.createElement('span');p.className='particle';p.style.left=(x-3)+'px';p.style.top=(y-3)+'px';p.style.background=colors[i%colors.length];const a=Math.random()*Math.PI*2,d=28+Math.random()*40;p.style.setProperty('--dx',Math.cos(a)*d+'px');p.style.setProperty('--dy',Math.sin(a)*d+'px');game.appendChild(p);setTimeout(()=>p.remove(),520)}}
+function showCombo(){comboEl.textContent=combo+' COMBO!';comboEl.classList.remove('show');void comboEl.offsetWidth;comboEl.classList.add('show')}
+function shake(){game.classList.remove('shake');void game.offsetWidth;game.classList.add('shake')}
+function updateHUD(){scoreEl.textContent=score;timeEl.textContent=timeLeft;timebar.style.width=(Math.max(0,timeLeft)/30*100)+'%';bestHud.textContent=best}
+function updateSpecial(){specialBar.style.width=special+'%';if(special>=100){specialBtn.classList.add('ready');specialBtn.textContent='⚡ 必殺技！'}else{specialBtn.classList.remove('ready');specialBtn.textContent='必殺技'}}
+function endGame(){
+  if(!running)return;running=false;stopBGM();clearInterval(timer);clearInterval(spawnLoop);for(const obj of [...active])removeMosquito(obj);if(boss){clearInterval(boss.mover);boss.el.remove();boss=null}sfx('end');
+  const oldBest=best;if(score>best){best=score;localStorage.setItem('mosquito_best',best)}bestHud.textContent=best;
+  document.getElementById('finalScore').textContent=score;document.getElementById('bestText').textContent=score>oldBest?'🎉 NEW BEST!  '+best:'BEST SCORE  '+best;
+  let rank,sub;if(score>=70){rank='蚊ハンター神 👑';sub='蚊の世界であなたの名前が伝説になりました。'}else if(score>=50){rank='Sランク ハンター';sub='ボス蚊すら震えるレベル。'}else if(score>=32){rank='Aランク ハンター';sub='かなりの反射神経！'}else if(score>=18){rank='Bランク ハンター';sub='いい感じ！まだ伸びる。'}else{rank='蚊の勝ち 🦟';sub='もう一回、本気で叩こう笑'}
+  document.getElementById('rankText').textContent=rank;document.getElementById('resultSub').textContent=`SCORE ${score} / MAX COMBO ${maxCombo} / BOSS ${bossCount}体出現　${sub}`;resultScreen.classList.add('show')
+}
+function stopAll(){running=false;clearInterval(timer);clearInterval(spawnLoop);stopBGM();for(const obj of [...active])removeMosquito(obj);active.clear();if(boss){clearInterval(boss.mover);boss.el.remove();boss=null}}
+</script>
+</body>
+</html>
